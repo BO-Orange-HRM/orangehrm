@@ -2,9 +2,10 @@
 
 namespace OrangeHRM\Payroll\Api\Model;
 
+use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
-class EmployeePayrollOverviewModel implements Normalizable
+class EmployeePayrollOverviewModel implements Normalizable, ModelConstructorArgsAwareInterface
 {
     private int $empNumber;
     private string $name;

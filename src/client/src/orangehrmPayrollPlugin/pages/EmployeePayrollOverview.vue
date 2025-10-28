@@ -174,6 +174,17 @@ export default {
           sortField: 'employee.name',
         },
         {
+          name: 'department',
+          title: this.$t('payroll.department'),
+          style: {flex: '15%'},
+        },
+        {
+          name: 'salary component',
+          title: this.$t('payroll.salary'),
+          style: {flex: '15%'},
+          sortField: 'employee.salaryComponent',
+        },
+        {
           name: 'salary',
           title: this.$t('payroll.salary'),
           style: {flex: '15%'},
@@ -187,11 +198,6 @@ export default {
         {
           name: 'allowances',
           title: this.$t('payroll.allowances'),
-          style: {flex: '15%'},
-        },
-        {
-          name: 'department',
-          title: this.$t('payroll.department'),
           style: {flex: '15%'},
         },
         {

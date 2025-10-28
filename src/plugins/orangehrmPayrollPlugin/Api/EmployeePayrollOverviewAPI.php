@@ -8,6 +8,7 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -27,7 +28,7 @@ class EmployeePayrollOverviewAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        $params = $this->getRequestParams();
+        $params = $this->getRequest()->getQuery();
 
         $filters = [
             'employeeName' => $params->get('employeeName'),
@@ -45,10 +46,18 @@ class EmployeePayrollOverviewAPI extends Endpoint implements CrudEndpoint
         $service = $this->getEmployeePayrollOverviewService();
         $result = $service->getEmployees($filters, $offset, $limit, $sort);
 
+        // Build meta info for pagination
+        $meta = new ParameterBag([
+            'total' => $result['total'],
+            'limit' => $limit,
+            'offset' => $offset,
+            'page' => $params->get('page', 1)
+        ]);
+
         return new EndpointCollectionResult(
             EmployeePayrollOverviewModel::class,
             $result['data'],
-            $result['total']
+            $meta
         );
     }
 
