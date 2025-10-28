@@ -1,0 +1,168 @@
+<mxfile host="app.diagrams.net" modified="2025-10-23T00:00:00.000Z" agent="Claude" version="24.0.0" etag="payment-only-onegov" type="device">
+    <diagram name="Payment Only Expansion" id="payment-only-expansion">
+        <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0" />
+                <mxCell id="1" parent="0" />
+
+                <!-- Title -->
+                <mxCell id="title" value="Payment Only Service - OneGov Platform Integration" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="320" y="20" width="520" height="40" as="geometry" />
+                </mxCell>
+
+                <!-- OneGov Platform Container -->
+                <mxCell id="onegov-container" value="OneGov Platform" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;startSize=40;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="100" width="480" height="360" as="geometry" />
+                </mxCell>
+
+                <!-- Government Departments -->
+                <mxCell id="gov-dept" value="Government Departments" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="onegov-container">
+                    <mxGeometry x="20" y="60" width="200" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- Citizens -->
+                <mxCell id="citizens" value="Citizens / Service Users" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1" vertex="1" parent="onegov-container">
+                    <mxGeometry x="260" y="60" width="200" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- OneGov Services -->
+                <mxCell id="onegov-services" value="OneGov Services &amp; Modules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="onegov-container">
+                    <mxGeometry x="20" y="140" width="440" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- API Integration Layer -->
+                <mxCell id="api-layer" value="RESTful API Integration Layer&#xa;(OAuth 2.0, API Key Management)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" vertex="1" parent="onegov-container">
+                    <mxGeometry x="20" y="220" width="440" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- Security Standards -->
+                <mxCell id="security" value="Security: ISO 27001, PCI DSS Compliance&#xa;Audit Trail | Tokenized Authentication" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;fontStyle=2;dashed=1" vertex="1" parent="onegov-container">
+                    <mxGeometry x="20" y="290" width="440" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- Payment Only Service Container -->
+                <mxCell id="pos-container" value="Payment Only Service (POS) - Enhanced Modules" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;startSize=40;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="100" width="480" height="540" as="geometry" />
+                </mxCell>
+
+                <!-- Invoicing Module -->
+                <mxCell id="invoicing" value="&lt;b&gt;Invoicing Module&lt;/b&gt;&#xa;• Generate digital invoices&#xa;• Link to services/accounts&#xa;• Payment status sync&#xa;• Reconciliation &amp; audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="pos-container">
+                    <mxGeometry x="20" y="60" width="200" height="90" as="geometry" />
+                </mxCell>
+
+                <!-- Pending Payments -->
+                <mxCell id="pending" value="&lt;b&gt;Pending Payments&lt;/b&gt;&#xa;• Centralized ledger&#xa;• Transaction tracking&#xa;• Payment reminders&#xa;• Status updates API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="pos-container">
+                    <mxGeometry x="260" y="60" width="200" height="90" as="geometry" />
+                </mxCell>
+
+                <!-- Billing Engine -->
+                <mxCell id="billing" value="&lt;b&gt;Billing Engine&lt;/b&gt;&#xa;• Automated fee calculation&#xa;• Dynamic billing rules&#xa;• Fixed &amp; variable fees&#xa;• Charge allocation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="pos-container">
+                    <mxGeometry x="20" y="170" width="200" height="90" as="geometry" />
+                </mxCell>
+
+                <!-- Bulk Payments -->
+                <mxCell id="bulk" value="&lt;b&gt;Bulk Payments&lt;/b&gt;&#xa;• Batch processing&#xa;• Disbursements &amp; refunds&#xa;• Supplier payments&#xa;• Transaction confirmation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="pos-container">
+                    <mxGeometry x="260" y="170" width="200" height="90" as="geometry" />
+                </mxCell>
+
+                <!-- Virtualized Payments -->
+                <mxCell id="virtual" value="&lt;b&gt;Virtualized Payments&lt;/b&gt;&#xa;• Payment simulation&#xa;• Workflow testing&#xa;• Reconciliation validation&#xa;• Configuration verification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="pos-container">
+                    <mxGeometry x="140" y="280" width="200" height="90" as="geometry" />
+                </mxCell>
+
+                <!-- Core POS -->
+                <mxCell id="core-pos" value="Existing Payment Only Service&#xa;(Backward Compatible)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="pos-container">
+                    <mxGeometry x="20" y="400" width="440" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- Data Formats -->
+                <mxCell id="data-format" value="Data Exchange: JSON, XML" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;fontStyle=2;dashed=1" vertex="1" parent="pos-container">
+                    <mxGeometry x="20" y="470" width="440" height="30" as="geometry" />
+                </mxCell>
+
+                <!-- External Systems Container -->
+                <mxCell id="external-container" value="External Payment Infrastructure" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;startSize=40;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="680" width="480" height="110" as="geometry" />
+                </mxCell>
+
+                <!-- Bank of Botswana -->
+                <mxCell id="bob" value="Bank of Botswana&#xa;MPGS Gateway" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=11;fontStyle=1" vertex="1" parent="external-container">
+                    <mxGeometry x="20" y="50" width="140" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- Novus Middleware -->
+                <mxCell id="novus" value="Novus Middleware&#xa;Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=11;fontStyle=1" vertex="1" parent="external-container">
+                    <mxGeometry x="180" y="50" width="140" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- GABS -->
+                <mxCell id="gabs" value="GABS&#xa;(Gov. Accounting System)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=11;fontStyle=1" vertex="1" parent="external-container">
+                    <mxGeometry x="340" y="50" width="120" height="50" as="geometry" />
+                </mxCell>
+
+                <!-- Stakeholders -->
+                <mxCell id="stakeholders" value="&lt;b&gt;Key Stakeholders&lt;/b&gt;&#xa;• Pixel Edge (PTY) LTD&#xa;• DTCO&#xa;• Vigilani&#xa;• PCG&#xa;• Bank of Botswana&#xa;• Novus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="500" width="200" height="130" as="geometry" />
+                </mxCell>
+
+                <!-- Implementation Phases -->
+                <mxCell id="phases" value="&lt;b&gt;Implementation Roadmap&lt;/b&gt;&#xa;1. Module validation&#xa;2. API requirements definition&#xa;3. Integration point mapping&#xa;4. Pilot with selected services&#xa;5. Full deployment rollout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="500" width="240" height="130" as="geometry" />
+                </mxCell>
+
+                <!-- Connections from OneGov to API Layer -->
+                <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="gov-dept" target="api-layer">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="200" y="280" />
+                            <mxPoint x="320" y="280" />
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1" source="citizens" target="api-layer">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="440" y="280" />
+                            <mxPoint x="320" y="280" />
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Connection from API Layer to POS -->
+                <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#82b366;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="api-layer" target="pos-container">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="560" y="345" as="sourcePoint" />
+                        <mxPoint x="600" y="345" as="targetPoint" />
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="edge3-label" value="RESTful APIs" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=1" vertex="1" connectable="0" parent="edge3">
+                    <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+                        <mxPoint x="5" y="-9" as="offset" />
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Connection from POS to External Systems -->
+                <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="core-pos" target="external-container">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="650" as="sourcePoint" />
+                        <mxPoint x="840" y="680" as="targetPoint" />
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="edge4-label" value="Payment Processing" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=1" vertex="1" connectable="0" parent="edge4">
+                    <mxGeometry x="-0.2" y="2" relative="1" as="geometry">
+                        <mxPoint x="42" y="-3" as="offset" />
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Benefits Box -->
+                <mxCell id="benefits" value="&lt;b&gt;Expected Outcomes&lt;/b&gt;&#xa;✓ Enhanced payment transparency&#xa;✓ Improved service accessibility&#xa;✓ Operational efficiency&#xa;✓ Automated reconciliation&#xa;✓ Digital transformation alignment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="660" width="240" height="130" as="geometry" />
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

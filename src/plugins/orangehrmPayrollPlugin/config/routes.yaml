@@ -1,0 +1,52 @@
+api_v2_view_payroll_module:
+  path: /payroll/viewPayrollModule
+  controller: OrangeHRM\Payroll\Controller\PayrollController::handle
+  methods: [ GET ]
+
+view_payroll_reports:
+  path: /payroll/viewPayrollReports
+  controller: OrangeHRM\Payroll\Controller\PayrollReportController::handle
+  methods: [ GET ]
+
+view_payroll_period:
+  path: /payroll/viewPayrollPeriods
+  controller: OrangeHRM\Payroll\Controller\PayrollPeriodController::handle
+  methods: [ GET ]
+
+employee_payroll_overview:
+  path: /payroll/employeePayrollOverview
+  controller: OrangeHRM\Payroll\Controller\EmployeePayrollOverviewController::handle
+  methods: [ GET ]
+
+api_v2_payroll_dashboard:
+  path: /api/v2/payroll/dashboard
+  controller: OrangeHRM\Payroll\Api\PayrollDashboardAPI::getOneResponse
+  methods: [ GET ]
+
+api_v2_payroll_periods:
+  path: /api/v2/payroll/periods
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollPeriodAPI
+
+api_v2_payroll_periods_get_one:
+  path: /api/v2/payroll/periods/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollPeriodAPI
+
+api_v2_payroll_employee_overview:
+  path: /api/v2/payroll/employees
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, PUT, DELETE  ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\EmployeePayrollOverviewAPI
+
+api_v2_payroll_period:
+  path: /api/v2/payroll/periods/{id}
+  controller: OrangeHRM\Payroll\Api\PayrollPeriodAPI
+  methods: [ GET, PUT, DELETE ]
+
+

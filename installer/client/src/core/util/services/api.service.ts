@@ -46,7 +46,7 @@ export class APIService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       'Cache-Control':
-        'no-store, no-cache, must-revalidate, post-check=0, pre-check=0',
+        'no-index, no-cache, must-revalidate, post-check=0, pre-check=0',
     };
     return this._http.get(this._apiSection, {headers, params});
   }

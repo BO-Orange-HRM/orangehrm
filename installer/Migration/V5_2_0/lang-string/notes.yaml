@@ -195,7 +195,7 @@ notes:
     - { group: general, note: 'Allows the HR admin to define job titles, specifications, pay grades, employment status, job categories and work shifts.', unitId: job }
     - { group: general, note: "This feature allows the HR Admin to administer users by:Creating logins and defining privileges by assigning User Roles (Global Admin/Admin*, Default ESS, Default Supervisor**). ", unitId: user_management }
     - { group: general, note: 'Here information regarding projects, customers, project activities and project administrator can be defined, which can be later used for project management activities.', unitId: project_info }
-    - { group: general, note: 'Allows the HR admin to enter/store general company info, structure of the organization and locations of sites.', unitId: organization }
+    - { group: general, note: 'Allows the HR admin to enter/index general company info, structure of the organization and locations of sites.', unitId: organization }
     - { group: general, note: 'Users can be assigned a combination of custom/default User Roles.', unitId: users }
     - { group: general, note: 'An arrangement of elements in a particular form', unitId: configuration }
     - { group: general, note: 'Enable/Disable Module display of admin,pim,leave,time,performance etc..', unitId: modules }

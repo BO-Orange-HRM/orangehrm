@@ -47,11 +47,11 @@ class MenuServiceTest extends KernelTestCase
 
     public static function setUpBeforeClass(): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/MenuItem.yaml', true);
-        TestDataService::populate(
-            Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/MenuService.yaml',
-            true
-        );
+//        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/MenuItem.yaml', true);
+//        TestDataService::populate(
+//            Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/MenuService.yaml',
+//            true
+//        );
         TestDataService::truncateSpecificTables([I18NTranslation::class, I18NLangString::class, I18NLanguage::class]);
     }
 
@@ -178,6 +178,11 @@ class MenuServiceTest extends KernelTestCase
                 'name' => 'Claim',
                 'url' => '/claim/viewClaimModule',
                 'icon' => 'claim',
+            ],
+            [
+                'id' => 121,
+                'name' => 'Payroll',
+                'url' => '/Payroll/viewPayrollModule',
             ],
             [
                 'id' => 101,

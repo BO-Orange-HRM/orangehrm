@@ -1,0 +1,3 @@
+orangehrmPayrollPlugin:
+  namespace: OrangeHRM\Payroll\Database\Migrations
+  directory: "%kernel.project_dir%/src/plugins/orangehrmPayrollPlugin/Database/migrations"
