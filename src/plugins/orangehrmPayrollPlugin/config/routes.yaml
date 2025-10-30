@@ -18,6 +18,11 @@ employee_payroll_overview:
   controller: OrangeHRM\Payroll\Controller\EmployeePayrollOverviewController::handle
   methods: [ GET ]
 
+api_v2_view_payroll_period_details:
+  path: /payroll/viewPayrollDetails/pPNumber/{pPid}
+  controller: OrangeHRM\Payroll\Controller\ViewPayrollPeriodController::handle
+  methods: [ GET ]
+
 api_v2_payroll_dashboard:
   path: /api/v2/payroll/dashboard
   controller: OrangeHRM\Payroll\Api\PayrollDashboardAPI::getOneResponse

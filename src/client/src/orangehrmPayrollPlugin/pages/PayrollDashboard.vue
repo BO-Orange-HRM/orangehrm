@@ -126,7 +126,6 @@ onMounted(async () => {
 });
 
 const headers = [
-  {name: 'name', title: $t('payroll.name'), style: {flex: 1}},
   {name: 'period', title: $t('payroll.period'), style: {flex: 1}},
   {name: 'status', title: $t('general.status'), style: {flex: 1}},
   {name: 'totalAmount', title: $t('payroll.total_amount'), style: {flex: 1}},
@@ -137,7 +136,8 @@ function onCreatePayrollPeriod() {
 }
 
 function onOpenPeriod(row) {
-  navigate(`/payroll/period/${row.id}`);
+  console.log(row);
+  navigate(`/payroll/viewPayrollDetails/pPNumber/${row.item.id}`);
 }
 
 function formatCurrency(value) {

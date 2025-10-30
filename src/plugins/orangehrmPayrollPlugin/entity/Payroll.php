@@ -11,8 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Payroll
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -20,155 +18,102 @@ class Payroll
     private int $id;
 
     /**
-     * @var Employee
-     *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
-     * @ORM\JoinColumn(name="employee_number", referencedColumnName="emp_number")
+     * @ORM\Column(name="payroll_period_id", type="integer", nullable=true)
      */
-    private Employee $employee;
+    private ?int $payrollPeriodId = null;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="basic_salary", type="decimal", precision=15, scale=2)
+     * @ORM\Column(name="employee_id", type="integer")
      */
-    private float $basicSalary;
+    private int $employeeId;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="allowances", type="decimal", precision=15, scale=2, nullable=true)
+     * @ORM\Column(name="gross_amount", type="decimal", precision=15, scale=2)
      */
-    private ?float $allowances = null;
+    private float $grossAmount = 0.00;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="deductions", type="decimal", precision=15, scale=2, nullable=true)
+     * @ORM\Column(name="deductions", type="decimal", precision=15, scale=2)
      */
-    private ?float $deductions = null;
+    private float $deductions = 0.00;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="net_salary", type="decimal", precision=15, scale=2)
+     * @ORM\Column(name="net_amount", type="decimal", precision=15, scale=2)
      */
-    private float $netSalary;
+    private float $netAmount = 0.00;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="currency", type="string", length=3)
-     */
-    private string $currency = 'USD';
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="payment_date", type="date")
-     */
-    private \DateTime $paymentDate;
-
-    /**
-     * @var string|null
-     *
      * @ORM\Column(name="status", type="string", length=20)
      */
-    private ?string $status = 'pending';
+    private string $status = 'pending';
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime")
      */
     private \DateTime $createdAt;
 
+    // Getters and Setters
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function getPayrollPeriodId(): ?int
     {
-        $this->id = $id;
+        return $this->payrollPeriodId;
     }
 
-    public function getEmployee(): Employee
+    public function setPayrollPeriodId(?int $payrollPeriodId): void
     {
-        return $this->employee;
+        $this->payrollPeriodId = $payrollPeriodId;
     }
 
-    public function setEmployee(Employee $employee): void
+    public function getEmployeeId(): int
     {
-        $this->employee = $employee;
+        return $this->employeeId;
     }
 
-    public function getBasicSalary(): float
+    public function setEmployeeId(int $employeeId): void
     {
-        return $this->basicSalary;
+        $this->employeeId = $employeeId;
     }
 
-    public function setBasicSalary(float $basicSalary): void
+    public function getGrossAmount(): float
     {
-        $this->basicSalary = $basicSalary;
+        return $this->grossAmount;
     }
 
-    public function getAllowances(): ?float
+    public function setGrossAmount(float $grossAmount): void
     {
-        return $this->allowances;
+        $this->grossAmount = $grossAmount;
     }
 
-    public function setAllowances(?float $allowances): void
-    {
-        $this->allowances = $allowances;
-    }
-
-    public function getDeductions(): ?float
+    public function getDeductions(): float
     {
         return $this->deductions;
     }
 
-    public function setDeductions(?float $deductions): void
+    public function setDeductions(float $deductions): void
     {
         $this->deductions = $deductions;
     }
 
-    public function getNetSalary(): float
+    public function getNetAmount(): float
     {
-        return $this->netSalary;
+        return $this->netAmount;
     }
 
-    public function setNetSalary(float $netSalary): void
+    public function setNetAmount(float $netAmount): void
     {
-        $this->netSalary = $netSalary;
+        $this->netAmount = $netAmount;
     }
 
-    public function getCurrency(): string
-    {
-        return $this->currency;
-    }
-
-    public function setCurrency(string $currency): void
-    {
-        $this->currency = $currency;
-    }
-
-    public function getPaymentDate(): \DateTime
-    {
-        return $this->paymentDate;
-    }
-
-    public function setPaymentDate(\DateTime $paymentDate): void
-    {
-        $this->paymentDate = $paymentDate;
-    }
-
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    public function setStatus(?string $status): void
+    public function setStatus(string $status): void
     {
         $this->status = $status;
     }

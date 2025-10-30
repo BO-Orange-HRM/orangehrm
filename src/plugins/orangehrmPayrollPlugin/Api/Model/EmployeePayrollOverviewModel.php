@@ -9,68 +9,49 @@ class EmployeePayrollOverviewModel implements Normalizable, ModelConstructorArgs
 {
     private int $empNumber;
     private string $name;
-    private ?float $salary;
-    private ?string $salaryComponent;
-    private ?float $directDebit;
-    private ?string $department;
+    private ?string $jobCategory;
+    private ?string $subUnit;
+    private ?string $employmentStatus;
+    private ?string $components;
+    private ?float $grossSalary;
 
     public function __construct(
         int $empNumber,
         string $name,
-        ?float $salary = null,
-        ?string $salaryComponent = null,
-        ?float $directDebit = null,
-        ?string $department = null
+        ?string $jobCategory = null,
+        ?string $subUnit = null,
+        ?string $employmentStatus = null,
+        ?string $components = null,
+        ?float $grossSalary = null
     ) {
         $this->empNumber = $empNumber;
         $this->name = $name;
-        $this->salary = $salary;
-        $this->salaryComponent = $salaryComponent;
-        $this->directDebit = $directDebit;
-        $this->department = $department;
+        $this->jobCategory = $jobCategory;
+        $this->subUnit = $subUnit;
+        $this->employmentStatus = $employmentStatus;
+        $this->components = $components;
+        $this->grossSalary = $grossSalary;
     }
 
     // Getters
-    public function getEmpNumber(): int
-    {
-        return $this->empNumber;
-    }
+    public function getEmpNumber(): int { return $this->empNumber; }
+    public function getName(): string { return $this->name; }
+    public function getJobCategory(): ?string { return $this->jobCategory; }
+    public function getSubUnit(): ?string { return $this->subUnit; }
+    public function getEmploymentStatus(): ?string { return $this->employmentStatus; }
+    public function getComponents(): ?string { return $this->components; }
+    public function getGrossSalary(): ?float { return $this->grossSalary; }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getSalary(): ?float
-    {
-        return $this->salary;
-    }
-
-    public function getSalaryComponent(): ?string
-    {
-        return $this->salaryComponent;
-    }
-
-    public function getDirectDebit(): ?float
-    {
-        return $this->directDebit;
-    }
-
-    public function getDepartment(): ?string
-    {
-        return $this->department;
-    }
-
-    // Convert to array for API serialization
     public function toArray(): array
     {
         return [
             'empNumber' => $this->empNumber,
             'name' => $this->name,
-            'salary' => $this->salary,
-            'salaryComponent' => $this->salaryComponent,
-            'directDebit' => $this->directDebit,
-            'department' => $this->department,
+            'jobCategory' => $this->jobCategory,
+            'subUnit' => $this->subUnit,
+            'employmentStatus' => $this->employmentStatus,
+            'components' => $this->components,
+            'grossSalary' => $this->grossSalary,
         ];
     }
 }

@@ -2,11 +2,14 @@
 
 namespace OrangeHRM\Payroll\Dao;
 
+use Doctrine\DBAL\Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Payroll\Api\Model\EmployeePayrollOverviewModel;
 
 class EmployeePayrollOverviewDao extends BaseDao
 {
+    /**
+     * @throws Exception
+     */
     public function getEmployees(array $filters, int $offset, int $limit, array $sort): array
     {
         $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
@@ -14,19 +17,22 @@ class EmployeePayrollOverviewDao extends BaseDao
         $qb->select(
             'e.emp_number',
             "CONCAT(e.emp_firstname, ' ', e.emp_lastname) AS name",
-            'b.ebsal_basic_salary AS salary',
-            'b.salary_component',
-            'd.dd_amount AS direct_debit',
-            's.name AS department'
+            'jc.name AS job_category',
+            's.name AS sub_unit',
+            'es.name AS employment_status',
+            'SUM(COALESCE(b.ebsal_basic_salary, 0)) AS gross_salary',
+            "GROUP_CONCAT(DISTINCT b.salary_component ORDER BY b.salary_component SEPARATOR ', ') AS salary_components"
         )
             ->from('hs_hr_employee', 'e')
             ->leftJoin('e', 'hs_hr_emp_basicsalary', 'b', 'b.emp_number = e.emp_number')
-            ->leftJoin('b', 'hs_hr_emp_directdebit', 'd', 'd.salary_id = b.id')
             ->leftJoin('e', 'ohrm_subunit', 's', 's.id = e.work_station')
+            ->leftJoin('e', 'ohrm_job_category', 'jc', 'e.eeo_cat_code = jc.id')
+            ->leftJoin('e', 'ohrm_employment_status', 'es', 'es.id = e.emp_status')
+            ->groupBy('e.emp_number', 's.name', 'jc.name', 'es.name')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
-        // Filtering
+        // 🔍 Filtering
         if (!empty($filters['employeeName'])) {
             $qb->andWhere("CONCAT(e.emp_firstname, ' ', e.emp_lastname) LIKE :employeeName")
                 ->setParameter('employeeName', '%'.$filters['employeeName'].'%');
@@ -37,12 +43,11 @@ class EmployeePayrollOverviewDao extends BaseDao
                 ->setParameter('department', $filters['department']);
         }
 
-        // Sorting — map field names to DB expressions
+        // 🔢 Sorting
         $validSortFields = [
-            'name' => "e.emp_firstname", // or CONCAT if you prefer
-            'salary' => 'b.ebsal_basic_salary',
-            'direct_debit' => 'd.dd_amount',
-            'department' => 's.name',
+            'name' => 'e.emp_firstname',
+            'components' => 'b.salary_component',
+            'grossSalary' => 'gross_salary',
         ];
 
         if (!empty($sort['field']) && isset($validSortFields[$sort['field']])) {
@@ -53,14 +58,15 @@ class EmployeePayrollOverviewDao extends BaseDao
 
         $rows = $qb->executeQuery()->fetchAllAssociative();
 
-        // Map rows to model/DTO
+        // ✅ Return clean data
         return array_map(fn($row) => [
             'empNumber' => (int)$row['emp_number'],
             'name' => $row['name'],
-            'salary' => isset($row['salary']) ? (float)$row['salary'] : null,
-            'salaryComponent' => $row['salary_component'] ?? null,
-            'directDebit' => isset($row['direct_debit']) ? (float)$row['direct_debit'] : null,
-            'department' => $row['department'] ?? null,
+            'jobCategory' => $row['job_category'] ?? null,
+            'subUnit' => $row['sub_unit'] ?? null,
+            'employmentStatus' => $row['employment_status'] ?? null,
+            'components' => $row['salary_components'] ?? '',
+            'grossSalary' => isset($row['gross_salary']) ? (float)$row['gross_salary'] : 0,
         ], $rows);
     }
 
@@ -84,7 +90,7 @@ class EmployeePayrollOverviewDao extends BaseDao
         }
 
         // Execute the query safely and return count
-        return (int) $qb->executeQuery()->fetchOne();
+        return (int)$qb->executeQuery()->fetchOne();
     }
 
 }
