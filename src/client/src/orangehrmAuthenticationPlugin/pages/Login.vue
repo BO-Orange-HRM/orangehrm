@@ -91,13 +91,19 @@
     </div>
     <div class="orangehrm-login-footer">
       <div v-if="showSocialMedia" class="orangehrm-login-footer-sm">
-        <a href="Your Company Facebook Link" target="_blank">
+        <a
+          href="https://www.linkedin.com/company/blackoak-consulting/"
+          target="_blank"
+        >
+          <oxd-icon type="svg" class="orangehrm-sm-icon" name="linkedinFill" />
+        </a>
+        <a href="https://www.facebook.com/blackoak.consulting" target="_blank">
           <oxd-icon type="svg" class="orangehrm-sm-icon" name="facebookFill" />
         </a>
-        <a href="Your Company Twitter Link" target="_blank">
+        <a href="https://twitter.com/orangehrm?lang=en" target="_blank">
           <oxd-icon type="svg" class="orangehrm-sm-icon" name="twitterFill" />
         </a>
-        <a href="Your Company Youtube Link" target="_blank">
+        <a href="https://www.youtube.com/@blackoakconsulting" target="_blank">
           <oxd-icon type="svg" class="orangehrm-sm-icon" name="youtubeFill" />
         </a>
       </div>
