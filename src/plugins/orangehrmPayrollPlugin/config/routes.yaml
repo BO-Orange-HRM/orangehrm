@@ -3,6 +3,11 @@ api_v2_view_payroll_module:
   controller: OrangeHRM\Payroll\Controller\PayrollController::handle
   methods: [ GET ]
 
+api_v2_view_payroll_dashboard:
+  path: /payroll/viewPayrollDashboard
+  controller: OrangeHRM\Payroll\Controller\PayrollDashboardController::handle
+  methods: [ GET ]
+
 view_payroll_reports:
   path: /payroll/viewPayrollReports
   controller: OrangeHRM\Payroll\Controller\PayrollReportController::handle

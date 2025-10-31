@@ -88,6 +88,12 @@
         :label="$t('payroll.generate_payslips')"
         @click="generatePayslips"
       />
+      <oxd-button
+        v-if="payrollData.period.status === 'Draft'"
+        display-type="secondary"
+        :label="$t('payroll.start_processing')"
+        @click="generatePayslips"
+      />
     </div>
 
     <br />

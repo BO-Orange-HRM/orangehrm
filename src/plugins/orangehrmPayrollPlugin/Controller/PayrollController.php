@@ -2,18 +2,13 @@
 
 namespace OrangeHRM\Payroll\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Framework\Http\RedirectResponse;
 
-class PayrollController extends AbstractVueController
+class PayrollController extends AbstractModuleController
 {
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
+    public function handle(): RedirectResponse
     {
-        $component = new Component('payroll-module');
-        $this->setComponent($component);
+        return $this->redirect('/payroll/viewPayrollDashboard');
     }
 }
