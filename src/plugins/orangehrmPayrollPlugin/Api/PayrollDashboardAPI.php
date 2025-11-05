@@ -3,19 +3,15 @@
 namespace OrangeHRM\Payroll\Api;
 
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
-use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Payroll\Api\Model\PayrollDashboardModel;
-use OrangeHRM\Payroll\Service\PayrollPeriodService;
 use OrangeHRM\Payroll\Service\Traits\PayrollPeriodServiceTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -26,7 +22,6 @@ class PayrollDashboardAPI extends Endpoint implements ResourceEndpoint
     public function __construct()
     {
     }
-
 
     /**
      * @inheritDoc
@@ -153,6 +148,7 @@ class PayrollDashboardAPI extends Endpoint implements ResourceEndpoint
     {
         return [
             'id' => $period->getId(),
+            'period_name' => $period->getName(),
             'period' => $period->getStartDate()->format('Y-m-d') . ' - ' . $period->getEndDate()->format('Y-m-d'),
             'status' => $period->getStatus(),
             'totalAmount' => $period->getTotalAmount()

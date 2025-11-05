@@ -42,8 +42,13 @@ class PayrollPeriodService
                 throw new Exception("Start date cannot be after end date.");
             }
 
+            $name = $this->getPayPeriodName($period->getStartDate()->format('Y-m-d'), $period->getEndDate()->format('Y-m-d'));
+            $period->setName($name);
+
             // Save the period
             $savedPeriod = $this->getPayrollPeriodDao()->save($period);
+
+            $this->getPayrollPeriodDao()->getEntityManager()->flush();
 
             // Create payroll records with calculated amounts for all active employees
             $employeeCount = $this->getPayrollPeriodDao()

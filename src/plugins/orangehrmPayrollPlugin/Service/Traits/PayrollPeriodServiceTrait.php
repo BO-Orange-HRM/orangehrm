@@ -18,4 +18,5 @@ trait PayrollPeriodServiceTrait
         }
         return $this->payrollPeriodService;
     }
+
 }

@@ -12,12 +12,14 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\PayrollPeriod;
+use OrangeHRM\Payroll\Api\Model\PayrollPeriodModel;
 use OrangeHRM\Payroll\Service\PayrollPeriodService;
 
 /**
@@ -27,9 +29,11 @@ use OrangeHRM\Payroll\Service\PayrollPeriodService;
  * @api {put} /api/v2/payroll/periods/:id Update Payroll Period
  * @api {delete} /api/v2/payroll/periods/:id Delete Payroll Period
  */
-class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
+class PayrollPeriodAPI extends Endpoint implements CrudEndpoint
 {
     private ?PayrollPeriodService $service = null;
+
+    public const PAYROLL_PERIOD_ID = 'id';
 
     /**
      * GET /api/v2/payroll/periods
@@ -41,21 +45,7 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
     {
         $periods = $this->getService()->getAll();
 
-        // Normalize entity objects to arrays
-        $data = array_map(function (PayrollPeriod $p) {
-            return [
-                'id' => $p->getId(),
-                'startDate' => $p->getStartDate()->format('Y-m-d'),
-                'endDate' => $p->getEndDate()->format('Y-m-d'),
-                'status' => $p->getStatus(),
-                'frequency' => $p->getFrequency(),
-                'totalAmount' => $p->getTotalAmount(),
-                'createdAt' => $p->getCreatedAt()->format('Y-m-d H:i:s'),
-                'processedAt' => $p->getProcessedAt()->format('Y-m-d H:i:s'),
-            ];
-        }, $periods);
-
-        return new EndpointCollectionResult($this->getModelClass(),$data);
+        return new EndpointCollectionResult($this->getModelClass(), $periods);
     }
 
     /**
@@ -80,16 +70,7 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
             throw $this->getRecordNotFoundException("Payroll period not found (ID: $id)");
         }
 
-        return new EndpointResourceResult($this->getModelClass(),[
-            'id' => $period->getId(),
-            'startDate' => $period->getStartDate()->format('Y-m-d'),
-            'endDate' => $period->getEndDate()->format('Y-m-d'),
-            'status' => $period->getStatus(),
-            'frequency' => $period->getFrequency(),
-            'totalAmount' => $period->getTotalAmount(),
-            'createdAt' => $period->getCreatedAt()->format('Y-m-d H:i:s'),
-            'processedAt' => $period->getProcessedAt()->format('Y-m-d H:i:s'),
-        ]);
+        return new EndpointResourceResult($this->getModelClass(), $period);
     }
 
     public function getValidationRuleForGetOne(): ParamRuleCollection
@@ -109,18 +90,9 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
         $params = $this->getRequest()->getBody();
         try {
             $period = $this->getService()->createPeriod($params->all());
-            return new EndpointResourceResult($this->getModelClass(), [
-                'message' => 'Payroll period created successfully',
-                'data' => [
-                    'id' => $period->getId(),
-                    'startDate' => $period->getStartDate()->format('Y-m-d'),
-                    'endDate' => $period->getEndDate()->format('Y-m-d'),
-                    'paymentDate' => $period->getProcessedAt()->format('Y-m-d'),
-                    'frequency' => $period->getFrequency(),
-                ]
-            ]);
+            return new EndpointResourceResult($this->getModelClass(), $period);
 
-        } catch (NormalizeException | Exception $e) {
+        } catch (NormalizeException|Exception $e) {
             throw $this->getBadRequestException($e->getMessage());
         }
     }
@@ -131,8 +103,11 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        $id = (int)$this->getRequest()->getUrlParam('id');
-        $params = $this->getRequest()->getBodyParams();
+        $id = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PAYROLL_PERIOD_ID
+        );
+        $params = $this->getRequest()->getBody();
 
         try {
             $period = $this->getService()->getPayrollPeriodDao()->findById($id);
@@ -140,25 +115,21 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
                 throw $this->getRecordNotFoundException("Payroll period not found (ID: $id)");
             }
 
-            if (isset($params['startDate'])) {
-                $period->setStartDate(new \DateTime($params['startDate']));
+            if (isset($params->all()['start_date'])) {
+                $period->setStartDate(new \DateTime($params->all()['start_date']));
             }
-            if (isset($params['endDate'])) {
-                $period->setEndDate(new \DateTime($params['endDate']));
+            if (isset($params->all()['end_date'])) {
+                $period->setEndDate(new \DateTime($params->all()['end_date']));
             }
-            if (isset($params['status'])) {
-                $period->setStatus($params['status']);
+            if (isset($params->all()['status'])) {
+                $period->setStatus($params->all()['status']);
             }
-            if (isset($params['frequency'])) {
-                $period->setFrequency($params['frequency']);
-            }
+
+            $period->setProcessedAt(new \DateTime());
 
             $updated = $this->getService()->savePayrollPeriod($period);
 
-            return new EndpointResourceResult($this->getModelClass(),[
-                'message' => 'Payroll period updated successfully',
-                'id' => $updated->getId(),
-            ]);
+            return new EndpointResourceResult($this->getModelClass(), $updated);
         } catch (Exception $e) {
             throw $this->getBadRequestException($e->getMessage());
         }
@@ -167,7 +138,15 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule('id', new Rule(Rules::INT_TYPE), new Rule(Rules::REQUIRED))
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PAYROLL_PERIOD_ID,
+                    new Rule(Rules::POSITIVE)
+                )
+            ),
+            new ParamRule('start_date', new Rule(Rules::DATE)),
+            new ParamRule('end_date', new Rule(Rules::DATE)),
+            new ParamRule('status', new Rule(Rules::STRING_TYPE)),
         );
     }
 
@@ -178,7 +157,10 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt('id');
+        $id = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PAYROLL_PERIOD_ID
+        );
 
         try {
             $period = $this->getService()->getPayrollPeriodDao()->findById($id);
@@ -188,7 +170,7 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
 
             $this->getService()->getPayrollPeriodDao()->delete($period);
 
-            return new EndpointCollectionResult($this->getModelClass(),[
+            return new EndpointCollectionResult(ArrayModel::class, [
                 'success' => true,
                 'message' => "Payroll period (ID: $id) deleted successfully",
             ]);
@@ -206,7 +188,7 @@ class PayrollPeriodAPI extends Endpoint  implements CrudEndpoint
 
     private function getModelClass()
     {
-        return PayrollPeriod::class;
+        return PayrollPeriodModel::class;
     }
 
     public function getValidationRuleForGetAll(): ParamRuleCollection

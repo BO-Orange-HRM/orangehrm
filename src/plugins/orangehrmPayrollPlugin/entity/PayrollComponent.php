@@ -5,7 +5,7 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_payroll_component")
+ * @ORM\Table(name="ohrm_payroll_item")
  * @ORM\Entity
  */
 class PayrollComponent
@@ -18,13 +18,6 @@ class PayrollComponent
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100)
-     */
-    private string $name;
 
     /**
      * @var string

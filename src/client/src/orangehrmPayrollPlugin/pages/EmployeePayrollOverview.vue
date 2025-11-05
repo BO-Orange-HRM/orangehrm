@@ -209,7 +209,6 @@ export default {
           cellConfig: {
             view: {onClick: this.onClickView, props: {name: 'file-text-fill'}},
             edit: {onClick: this.onClickEdit, props: {name: 'pencil-fill'}},
-            delete: {onClick: this.onClickDelete, props: {name: 'trash'}},
           },
         },
       ],
@@ -222,21 +221,10 @@ export default {
       navigate('/pim/addEmployee');
     },
     onClickEdit(item) {
-      navigate('/payroll/employees/edit/{id}', {id: item.id});
+      navigate('/pim/viewSalaryList/empNumber/{id}', {id: item.empNumber});
     },
     onClickView(item) {
-      navigate('/payroll/employees/view/{id}', {id: item.id});
-    },
-    onClickDeleteSelected() {
-      const ids = this.checkedItems.map((index) => this.items?.data[index].id);
-      this.$refs.deleteDialog.showDialog().then((confirmation) => {
-        if (confirmation === 'ok') this.deleteItems(ids);
-      });
-    },
-    onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then((confirmation) => {
-        if (confirmation === 'ok') this.deleteItems([item.id]);
-      });
+      navigate('/payroll/employees/view/{id}', {id: item.empNumber});
     },
     async deleteItems(ids) {
       if (Array.isArray(ids)) {

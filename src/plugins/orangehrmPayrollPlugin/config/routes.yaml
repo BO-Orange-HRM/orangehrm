@@ -1,3 +1,6 @@
+####################
+# Screens
+####################
 api_v2_view_payroll_module:
   path: /payroll/viewPayrollModule
   controller: OrangeHRM\Payroll\Controller\PayrollController::handle
@@ -27,6 +30,11 @@ api_v2_view_payroll_period_details:
   path: /payroll/viewPayrollDetails/pPNumber/{pPid}
   controller: OrangeHRM\Payroll\Controller\ViewPayrollPeriodController::handle
   methods: [ GET ]
+
+
+################
+# Api V2 Routes
+#################
 
 api_v2_payroll_dashboard:
   path: /api/v2/payroll/dashboard

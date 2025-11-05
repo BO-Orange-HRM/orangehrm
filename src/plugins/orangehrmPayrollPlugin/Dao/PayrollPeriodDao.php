@@ -40,6 +40,10 @@ class PayrollPeriodDao extends BaseDao
         return $this->payrollCalculationService;
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function save(PayrollPeriod $period): PayrollPeriod
     {
         $this->entityManager->persist($period);
@@ -89,7 +93,7 @@ class PayrollPeriodDao extends BaseDao
             'SUM(p.net_amount) AS total_net'
         )
             ->from('ohrm_payroll', 'p')
-            ->where('p.payroll_period_id = :pPid')
+            ->where('p.pay_period_id = :pPid')
             ->setParameter('pPid', $pPid);
 
         $row = $qb->executeQuery()->fetchAssociative();
@@ -111,6 +115,8 @@ class PayrollPeriodDao extends BaseDao
         $count = 0;
         $errors = [];
 
+        $this->getEntityManager()->flush();
+
         foreach ($employees as $employee) {
             $empNumber = (int)$employee['emp_number'];
 
@@ -125,13 +131,13 @@ class PayrollPeriodDao extends BaseDao
                 $conn = $this->getEntityManager()->getConnection();
 
                 $conn->insert('ohrm_payroll', [
-                    'payroll_period_id' => $periodId,
+                    'pay_period_id' => $periodId,
                     'employee_id' => $empNumber,
                     'gross_amount' => $payrollData['gross_salary'],
                     'deductions' => $payrollData['total_deductions'],
                     'net_amount' => $payrollData['net_salary'],
                     'currency_id' => $payrollData['currency_id'],
-                    'pay_period_id' => $payrollData['payperiod_code'],
+                    'pay_period_code' => $payrollData['payperiod_code'],
                     'status' => 'pending',
                     'created_at' => (new \DateTime())->format('Y-m-d H:i:s')
                 ]);
@@ -198,11 +204,12 @@ class PayrollPeriodDao extends BaseDao
      */
     public function updatePeriodTotalAmount(int $periodId): void
     {
+        $this->getEntityManager()->flush();
         $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
 
         $qb->select('SUM(p.net_amount) as total')
             ->from('ohrm_payroll', 'p')
-            ->where('p.payroll_period_id = :periodId')
+            ->where('p.pay_period_id = :periodId')
             ->setParameter('periodId', $periodId);
 
         $result = $qb->executeQuery()->fetchAssociative();
@@ -237,7 +244,7 @@ class PayrollPeriodDao extends BaseDao
             ->from('ohrm_payroll', 'p')
             ->leftJoin('p', 'hs_hr_employee', 'e', 'e.emp_number = p.employee_id')
             ->leftJoin('e', 'ohrm_subunit', 's', 's.id = e.work_station')
-            ->where('p.payroll_period_id = :pPid')
+            ->where('p.pay_period_id = :pPid')
             ->setParameter('pPid', $pPid)
             ->orderBy('e.emp_lastname', 'ASC');
 
@@ -272,7 +279,7 @@ class PayrollPeriodDao extends BaseDao
         )
             ->from('ohrm_payroll', 'p')
             ->innerJoin('p', 'hs_hr_employee', 'e', 'p.employee_id = e.emp_number')
-            ->where('p.payroll_period_id = :periodId')
+            ->where('p.pay_period_id = :periodId')
             ->andWhere('p.employee_id = :empNumber')
             ->setParameter('periodId', $periodId)
             ->setParameter('empNumber', $empNumber);
@@ -393,7 +400,7 @@ class PayrollPeriodDao extends BaseDao
         $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $qb->select('COUNT(DISTINCT p.employee_id)')
             ->from('ohrm_payroll', 'p')
-            ->where('p.payroll_period_id = :periodId')
+            ->where('p.pay_period_id = :periodId')
             ->setParameter('periodId', $periodId);
 
         return (int)$qb->executeQuery()->fetchOne();
@@ -407,7 +414,7 @@ class PayrollPeriodDao extends BaseDao
         $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $qb->select('SUM(p.net_amount)')
             ->from('ohrm_payroll', 'p')
-            ->where('p.payroll_period_id = :periodId')
+            ->where('p.pay_period_id = :periodId')
             ->setParameter('periodId', $periodId);
 
         return (float)($qb->executeQuery()->fetchOne() ?? 0);

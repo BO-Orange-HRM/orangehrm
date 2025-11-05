@@ -18,7 +18,7 @@ class Payroll
     private int $id;
 
     /**
-     * @ORM\Column(name="payroll_period_id", type="integer", nullable=true)
+     * @ORM\Column(name="pay_period_id", type="integer", nullable=true)
      */
     private ?int $payrollPeriodId = null;
 
@@ -51,6 +51,12 @@ class Payroll
      * @ORM\Column(name="created_at", type="datetime")
      */
     private \DateTime $createdAt;
+
+    /**
+     * @var \DateTime $updatedAt
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private \DateTime $updatedAt;
 
     // Getters and Setters
     public function getId(): int
@@ -126,5 +132,14 @@ class Payroll
     public function setCreatedAt(\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
+    }
+    public function setUpdatedAt(\DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

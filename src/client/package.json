@@ -15,7 +15,9 @@
     "core-js": "^3.35.1",
     "date-fns": "^2.30.0",
     "hammerjs": "^2.0.8",
+    "html2canvas": "^1.4.1",
     "intl-messageformat": "^9.13.0",
+    "jspdf": "^3.0.3",
     "qrcode": "^1.5.3",
     "vue": "^3.4.18"
   },

@@ -9,7 +9,7 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
  * @ORM\Table(name="ohrm_payroll_period")
  * @ORM\Entity
  */
-class PayrollPeriod implements Normalizable
+class PayrollPeriod
 {
     /**
      * @var int
@@ -18,6 +18,12 @@ class PayrollPeriod implements Normalizable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
+    
+    /**
+     * @var string
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private string $name;
 
     /**
      * @var \DateTime
@@ -140,8 +146,23 @@ class PayrollPeriod implements Normalizable
         return $this->frequency;
     }
 
-    public function toArray(): array
+    public function getName(): string
     {
-        return [];
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getPaymentDate(): \DateTime
+    {
+        return $this->paymentDate;
+    }
+
+    public function setPaymentDate(\DateTime $paymentDate): void
+    {
+        $this->paymentDate = $paymentDate;
     }
 }
