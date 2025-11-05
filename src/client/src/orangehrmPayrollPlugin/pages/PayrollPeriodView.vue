@@ -3,14 +3,14 @@
     <!-- Header -->
     <div class="orangehrm-header-container orangehrm-card-container">
       <oxd-text tag="h5" class="orangehrm-title">
-        {{ $t('payroll.pay_period_details') }}
+        {{ $t('Pay Period Details') }}
       </oxd-text>
 
       <div class="orangehrm-header-info">
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-text class="orangehrm-label"
-              >{{ $t('payroll.period_name') }}
+              >{{ $t('Period Name') }}
             </oxd-text>
             <oxd-text class="orangehrm-value"
               >{{ payrollData.period.name }}
@@ -19,7 +19,7 @@
 
           <oxd-grid-item>
             <oxd-text class="orangehrm-label"
-              >{{ $t('payroll.date_range') }}
+              >{{ $t('Dates Range') }}
             </oxd-text>
             <oxd-text class="orangehrm-value">
               {{ formatDate(payrollData.period.startDate) }} →
@@ -29,7 +29,7 @@
 
           <oxd-grid-item>
             <oxd-text class="orangehrm-label"
-              >{{ $t('payroll.payment_date') }}
+              >{{ $t('Payment Date') }}
             </oxd-text>
             <oxd-text class="orangehrm-value">
               {{ formatDate(payrollData.period.paymentDate) || '-' }}
@@ -40,7 +40,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid mt-3">
           <oxd-grid-item>
             <oxd-text class="orangehrm-label"
-              >{{ $t('payroll.frequency') }}
+              >{{ $t('Payment Frequency') }}
             </oxd-text>
             <oxd-text class="orangehrm-value"
               >{{ payrollData.period.frequency || '-' }}
@@ -48,7 +48,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-text class="orangehrm-label"
-              >{{ $t('payroll.status') }}
+              >{{ $t('general.status') }}
             </oxd-text>
             <oxd-badge :type="statusType(payrollData.period.status)">
               {{ payrollData.period.status }}
@@ -63,7 +63,7 @@
     <!-- Overview Summary -->
     <div class="orangehrm-paper-container payroll-overview">
       <div class="overview-header">
-        <oxd-text tag="h6">{{ $t('payroll.overview_summary') }}</oxd-text>
+        <oxd-text tag="h6">{{ $t('Overview') }}</oxd-text>
       </div>
       <oxd-divider />
 

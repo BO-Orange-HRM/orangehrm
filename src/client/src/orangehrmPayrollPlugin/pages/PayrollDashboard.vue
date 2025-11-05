@@ -3,34 +3,33 @@
     <div class="orangehrm-header-section orangehrm-card-container">
       <div class="header-left">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('payroll.current_period') }}
+          {{ $t('Current Period') }}
         </oxd-text>
         <div v-if="activePeriod" class="period-info">
           <p>
             <strong>{{ activePeriod.name }}</strong>
           </p>
           <p>
-            {{ $t('payroll.period') }}: {{ activePeriod.start_date }} -
+            {{ $t('Period') }}: {{ activePeriod.start_date }} -
             {{ activePeriod.end_date }}
           </p>
           <p>
-            {{ $t('general.status') }}:
+            {{ $t('Status') }}:
             <span :class="['status-badge', activePeriod.status.toLowerCase()]">
               {{ activePeriod.status }}
             </span>
           </p>
         </div>
         <div v-else>
-          <p>{{ $t('payroll.no_active_period') }}</p>
+          <p>{{ $t('No active period') }}</p>
         </div>
       </div>
 
       <div class="header-right">
         <oxd-button
-          v-if="$can.create('payroll_period')"
           display-type="secondary"
           icon-name="plus"
-          :label="$t('payroll.create_payroll_period')"
+          :label="$t('Create Payroll Period')"
           @click="onCreatePayrollPeriod"
         />
       </div>
@@ -40,7 +39,7 @@
     <div class="orangehrm-kpi-container">
       <oxd-card class="orangehrm-kpi-card">
         <oxd-text tag="p" class="orangehrm-kpi-label">
-          {{ $t('payroll.total_employees') }}
+          {{ $t('Total Employees') }}
         </oxd-text>
         <oxd-text tag="h5" class="orangehrm-kpi-value">
           {{ kpis.totalEmployees }}
@@ -49,7 +48,7 @@
 
       <oxd-card class="orangehrm-kpi-card">
         <oxd-text tag="p" class="orangehrm-kpi-label">
-          {{ $t('payroll.total_amount') }}
+          {{ $t('Total Amount(BPW)') }}
         </oxd-text>
         <oxd-text tag="h5" class="orangehrm-kpi-value">
           {{ formatCurrency(kpis.totalAmount) }}
@@ -58,7 +57,7 @@
 
       <oxd-card class="orangehrm-kpi-card">
         <oxd-text tag="p" class="orangehrm-kpi-label">
-          {{ $t('payroll.pending_approvals') }}
+          {{ $t('Pending Approvals') }}
         </oxd-text>
         <oxd-text tag="h5" class="orangehrm-kpi-value orangehrm-kpi-warning">
           {{ kpis.pendingApprovals }}
@@ -67,7 +66,7 @@
 
       <oxd-card class="orangehrm-kpi-card">
         <oxd-text tag="p" class="orangehrm-kpi-label">
-          {{ $t('payroll.last_run_date') }}
+          {{ $t('Last Run') }}
         </oxd-text>
         <oxd-text tag="h5" class="orangehrm-kpi-value">
           {{ kpis.lastRunDate || '-' }}
@@ -76,29 +75,29 @@
     </div>
 
     <!-- === FILTER SECTION === -->
-    <oxd-table-filter :filter-title="$t('payroll.recent_periods')">
+    <oxd-table-filter :filter-title="$t('Filter Payroll Periods')">
       <oxd-form @submit-valid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.periodName"
-                :label="$t('payroll.period_name')"
-                :placeholder="$t('payroll.enter_period_name')"
+                :label="$t('Period Name')"
+                :placeholder="$t('enter period name')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-select
+              <oxd-input-field
                 v-model="filters.status"
-                :label="$t('general.status')"
+                type="select"
+                :label="$t('general.select_status')"
                 :options="statusOptions"
-                :placeholder="$t('general.select_status')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-date-input
+              <date-input
                 v-model="filters.startDate"
-                :label="$t('general.start_date')"
+                :label="$t('Start Date')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -128,7 +127,6 @@
         :selected="checkedItems.length"
         :total="total"
         :loading="isLoading"
-        @delete="onClickDeleteSelected"
       ></table-header>
 
       <div class="orangehrm-container">
@@ -251,13 +249,13 @@ export default {
     const headers = [
       {
         name: 'period_name',
-        title: $t('payroll.period_name'),
+        title: $t('Period Name'),
         style: {flex: 2},
         sortField: 'name',
       },
       {
         name: 'period',
-        title: $t('payroll.period_range'),
+        title: $t('Period Dates'),
         style: {flex: 2},
         sortField: 'period',
       },
@@ -268,7 +266,7 @@ export default {
       },
       {
         name: 'totalAmount',
-        title: $t('payroll.total_amount'),
+        title: $t('Total Amount(Bwp)'),
         style: {flex: 1},
       },
       {
@@ -311,6 +309,10 @@ export default {
       }
     }
 
+    function onCreatePayrollPeriod() {
+      navigate('/payroll/viewPayrollDashboard');
+    }
+
     return {
       $t,
       activePeriod,
@@ -332,6 +334,7 @@ export default {
       showEditModal,
       selectedPayroll,
       closeEditModal,
+      onCreatePayrollPeriod,
       http,
     };
   },

@@ -2,7 +2,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('payroll.configure_payroll_period') }}
+        {{ $t('Create Payroll Period') }}
       </oxd-text>
 
       <oxd-divider />

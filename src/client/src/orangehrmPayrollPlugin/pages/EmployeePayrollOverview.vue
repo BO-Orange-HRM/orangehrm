@@ -1,23 +1,23 @@
 <template>
   <div class="orangehrm-background-container">
     <!-- Filter Section -->
-    <oxd-table-filter :filter-title="$t('payroll.employee_overview')">
+    <oxd-table-filter :filter-title="$t('Search Employee')">
       <oxd-form @submit-valid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.employeeName"
-                :label="$t('payroll.employee_name')"
-                :placeholder="$t('payroll.enter_employee_name')"
+                :label="$t('Employee Name')"
+                :placeholder="$t('enter employee name')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-select
+              <oxd-input-field
                 v-model="filters.department"
-                :label="$t('payroll.department')"
+                type="select"
+                :label="$t('Sub unit')"
                 :options="departments"
-                :placeholder="$t('payroll.select_department')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -169,34 +169,34 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: this.$t('payroll.employee_name'),
+          title: this.$t('Employee Name'),
           style: {flex: '25%'},
           sortField: 'employee.name',
         },
         {
           name: 'jobCategory',
-          title: this.$t('payroll.job_category'),
+          title: this.$t('Job Category'),
           style: {flex: '15%'},
         },
         {
           name: 'subUnit',
-          title: this.$t('payroll.sub_unit'),
+          title: this.$t('Sub Unit'),
           style: {flex: '15%'},
         },
         {
           name: 'employmentStatus',
-          title: this.$t('payroll.employment_status'),
+          title: this.$t('Employment Status'),
           style: {flex: '15%'},
         },
         {
           name: 'components',
-          title: this.$t('payroll.components'),
+          title: this.$t('Salary Components'),
           style: {flex: '15%'},
           sortField: 'employee.components',
         },
         {
           name: 'grossSalary',
-          title: this.$t('payroll.gross_salary'),
+          title: this.$t('Gross Salary'),
           style: {flex: '15%'},
           sortField: 'employee.grossSalary',
         },

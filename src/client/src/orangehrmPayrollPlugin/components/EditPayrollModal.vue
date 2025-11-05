@@ -2,7 +2,7 @@
   <oxd-dialog class="orangehrm-dialog-modal" @update:show="onCancel(false)">
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
-        {{ $t('payroll.edit_payroll_period') }}
+        {{ $t('Edit Payroll Period') }}
       </oxd-text>
     </div>
 
@@ -13,7 +13,7 @@
         <oxd-input-field
           v-model="form.status"
           type="select"
-          :label="$t('payroll.status')"
+          :label="$t('general.status')"
           :options="statusOptions"
           :rules="rules.status"
           required
@@ -23,7 +23,7 @@
       <oxd-form-row>
         <date-input
           v-model="form.start_date"
-          :label="$t('payroll.start_date')"
+          :label="$t('Start Date')"
           :rules="rules.start_date"
           required
         />
@@ -32,7 +32,7 @@
       <oxd-form-row>
         <date-input
           v-model="form.end_date"
-          :label="$t('payroll.end_date')"
+          :label="$t('End Date')"
           :rules="rules.end_date"
           required
         />
