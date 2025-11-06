@@ -550,6 +550,13 @@ class Employee
     private iterable $attendanceRecords;
 
     /**
+     * @var Collection<EmployeeDeduction>
+     *
+     * @ORM\OneToMany(targetEntity="EmployeeDeduction", mappedBy="employee")
+     */
+    private Collection $deductions;
+
+    /**
      * Constructor
      */
     public function __construct()
