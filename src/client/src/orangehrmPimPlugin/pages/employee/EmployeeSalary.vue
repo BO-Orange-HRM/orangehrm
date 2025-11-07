@@ -47,16 +47,42 @@
       </profile-action-header>
     </div>
     <table-header
-      :selected="checkedItems.length"
-      :total="total"
+      :selected="checkedEarnings.length"
+      :total="earnings.length"
       :loading="isLoading"
-      @delete="onClickDeleteSelected"
+      @delete="() => onClickDeleteSelected('earnings')"
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
-        v-model:selected="checkedItems"
+        v-model:selected="checkedEarnings"
         :headers="tableHeaders"
-        :items="items?.data"
+        :items="earnings"
+        :selectable="$can.delete(`salary_details`)"
+        :disabled="isDisabled"
+        :clickable="false"
+        :loading="isLoading"
+        row-decorator="oxd-table-decorator-card"
+      />
+    </div>
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+      <profile-action-header
+        :action-button-shown="$can.update(`salary_details`)"
+        @click="onClickAdd"
+      >
+        {{ $t('pim.deduction_component') }}
+      </profile-action-header>
+    </div>
+    <table-header
+      :selected="checkedDeductions.length"
+      :total="deductions.length"
+      :loading="isLoading"
+      @delete="() => onClickDeleteSelected('deductions')"
+    ></table-header>
+    <div class="orangehrm-container">
+      <oxd-card-table
+        v-model:selected="checkedDeductions"
+        :headers="deductionsTableHeaders"
+        :items="deductions"
         :selectable="$can.delete(`salary_details`)"
         :disabled="isDisabled"
         :clickable="false"
@@ -76,6 +102,7 @@
 </template>
 
 <script>
+import {computed} from 'vue';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
@@ -93,6 +120,7 @@ const salaryNormalizer = (data) => {
       currency: item.currencyType?.name,
       frequency: item.payPeriod?.name,
       depositAmount: item.directDebit?.amount,
+      type: item.componentType?.name,
     };
   });
 };
@@ -147,7 +175,18 @@ export default {
     } = usePaginate(http, {
       normalizer: salaryNormalizer,
       toastNoRecords: false,
+      pageSize: 100,
     });
+
+    const earnings = computed(
+      () =>
+        response.value?.data?.filter((item) => item.type === 'Earning') || [],
+    );
+    const deductions = computed(
+      () =>
+        response.value?.data?.filter((item) => item.type === 'Deduction') || [],
+    );
+
     return {
       http,
       showPaginator,
@@ -158,6 +197,8 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      earnings,
+      deductions,
     };
   },
 
@@ -167,7 +208,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: this.$t('pim.salary_component'),
+          title: this.$t('pim.salary_components'),
           style: {flex: 1},
         },
         {name: 'amount', title: this.$t('general.amount'), style: {flex: 1}},
@@ -187,7 +228,32 @@ export default {
           style: {flex: 1},
         },
       ],
-      checkedItems: [],
+      deductionsHeaders: [
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('pim.deduction_component'),
+          style: {flex: 1},
+        },
+        {name: 'amount', title: this.$t('general.amount'), style: {flex: 1}},
+        {
+          name: 'currency',
+          title: this.$t('general.currency'),
+          style: {flex: 1},
+        },
+        {
+          name: 'frequency',
+          title: this.$t('pim.pay_frequency'),
+          style: {flex: 1},
+        },
+        {
+          name: 'depositAmount',
+          title: this.$t('pim.deduction_amount'),
+          style: {flex: 1},
+        },
+      ],
+      checkedEarnings: [],
+      checkedDeductions: [],
       showSaveModal: false,
       showEditModal: false,
       editModalState: null,
@@ -228,16 +294,55 @@ export default {
         ? this.headers.concat([headerActions])
         : this.headers;
     },
+    deductionsTableHeaders() {
+      const headerActions = {
+        name: 'actions',
+        slot: 'action',
+        title: this.$t('general.actions'),
+        style: {flex: 1},
+        cellType: 'oxd-table-cell-actions',
+        cellConfig: {},
+      };
+      if (this.$can.delete(`salary_details`)) {
+        headerActions.cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
+      if (this.$can.update(`salary_details`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
+          },
+        };
+      }
+      return Object.keys(headerActions.cellConfig).length > 0
+        ? this.deductionsHeaders.concat([headerActions])
+        : this.deductionsHeaders;
+    },
   },
 
   methods: {
-    onClickDeleteSelected() {
-      const ids = this.checkedItems.map((index) => {
-        return this.items?.data[index].id;
+    onClickDeleteSelected(section) {
+      let checkedItems;
+      let items;
+      if (section === 'earnings') {
+        checkedItems = this.checkedEarnings;
+        items = this.earnings.value;
+      } else {
+        checkedItems = this.checkedDeductions;
+        items = this.deductions.value;
+      }
+      const ids = checkedItems.map((index) => {
+        return items[index].id;
       });
       this.$refs.deleteDialog.showDialog().then((confirmation) => {
         if (confirmation === 'ok') {
-          this.deleteItems(ids);
+          this.deleteItems(ids, section);
         }
       });
     },
@@ -248,24 +353,33 @@ export default {
         }
       });
     },
-    deleteItems(items) {
-      if (items instanceof Array) {
+    deleteItems(ids, section) {
+      if (ids instanceof Array) {
         this.isLoading = true;
         this.http
           .deleteAll({
-            ids: items,
+            ids: ids,
           })
           .then(() => {
             return this.$toast.deleteSuccess();
           })
           .then(() => {
             this.isLoading = false;
-            this.resetDataTable();
+            this.resetDataTable(section);
           });
       }
     },
-    async resetDataTable() {
-      this.checkedItems = [];
+    async resetDataTable(section) {
+      if (section) {
+        if (section === 'earnings') {
+          this.checkedEarnings = [];
+        } else if (section === 'deductions') {
+          this.checkedDeductions = [];
+        }
+      } else {
+        this.checkedEarnings = [];
+        this.checkedDeductions = [];
+      }
       await this.execQuery();
     },
     onClickAdd() {
